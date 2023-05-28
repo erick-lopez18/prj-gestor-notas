@@ -16,9 +16,13 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
-from app_notes.views import bienvenida
+from django.shortcuts import redirect
+from app_notes.views import index, login_usuario, notas_usuario
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', bienvenida, name='bienvenida'),
+    path('', lambda request: redirect('index')),
+    path('index/', index, name='index'),
+    path('login/', login_usuario, name='login'),
+    path('notas_usuario/', notas_usuario, name='notas_usuario')
 ]
