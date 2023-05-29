@@ -3,18 +3,14 @@ from django.contrib.auth import authenticate, login
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 
-# Create your views here.
-# from django.http import HttpResponse
+# Vistas de la aplicación. Usar en conjunto con carpeta 'templates'.
 
-## Hola, esto es un sistema gestor notas. Esto se muestra al levantar entorno.
-# def bienvenida(request):
-#    return HttpResponse("Bienvenido al sistema gestor de notas.")
-# Indice de bienvenida (index.html)
+# ELR: Función para índice de bienvenida. Usa template 'index.html'.
 @login_required
 def index(request):
     return render(request, "app/index.html")
 
-# Login de usuario 
+# ELR: Función para login de usuario. Usa template 'login.html'.
 def login_usuario(request):
     if request.method == 'POST':
         username = request.POST['username']
@@ -27,7 +23,7 @@ def login_usuario(request):
             messages.error(request, 'Credenciales inválidas.')
     return render(request, 'login.html')
 
-# Vista CRUD
+# ELR: Función para menú CRUD. Usa template 'notas_usuario.html'.
 @login_required
 def notas_usuario(request):
     return render(request, 'notas_usuario.html')

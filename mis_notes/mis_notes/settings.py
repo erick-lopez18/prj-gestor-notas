@@ -31,8 +31,9 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
-    #Validación de apps en carpeta 'app_notes'
+    # ELR: Definición de aplicación Python ubicado en carpeta 'app_notes'.
     'app_notes.apps.AppNotesConfig',
+    # ELR: Definiciones requeridas por Django.
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',

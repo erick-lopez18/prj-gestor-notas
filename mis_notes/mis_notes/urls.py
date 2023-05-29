@@ -19,6 +19,10 @@ from django.urls import path
 from django.shortcuts import redirect
 from app_notes.views import index, login_usuario, notas_usuario
 
+# ELR: Direcciones de referencia para las funciones de vistas en 'views.py'.
+#      'views.py' se encuentra dentro de la carpeta 'app_notes'.
+#      Las funciones deben ser definidas en 'from app_notes.views import ...'.
+#      Esto debe cumplirse antes de usarlas en 'urlpatterns = []' como 'path()'.
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', lambda request: redirect('index')),
