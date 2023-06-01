@@ -15,18 +15,40 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 from django.contrib import admin
-from django.urls import path
+from django.urls import path, include
 from django.shortcuts import redirect
-from app_notes.views import index, login_usuario, notas_usuario
+from rest_framework.routers import DefaultRouter
+from rest_framework_simplejwt.views import TokenRefreshView
+from app_notes.views import index, notas_usuario, events
+from app_notes.views import MyTokenObtainPairView, LoginUsuarioViewSet, RegistroUsuarioViewSet
 
-# ELR: Direcciones de referencia para las funciones de vistas en 'views.py'.
+# Definición del router de Django REST framework
+router = DefaultRouter()
+
+# ELR: Direcciones URL para las funciones de vistas en 'views.py'.
 #      'views.py' se encuentra dentro de la carpeta 'app_notes'.
 #      Las funciones deben ser definidas en 'from app_notes.views import ...'.
-#      Esto debe cumplirse antes de usarlas en 'urlpatterns = []' como 'path()'.
+#      Esto debe cumplirse antes de usarlas en 'urlpatterns = []' con 'path()'.
 urlpatterns = [
     path('admin/', admin.site.urls),
+    #
     path('', lambda request: redirect('index')),
     path('index/', index, name='index'),
-    path('login/', login_usuario, name='login'),
-    path('notas_usuario/', notas_usuario, name='notas_usuario')
+    #
+    # path('register/', registro_usuario, name='register'),
+    path('notes/', notas_usuario, name='notes'),
+    path('events/', events, name='events'),
+    path('api/token/', MyTokenObtainPairView.as_view(), name='token_obtain_pair'),
+    path('api/token/refresh/', TokenRefreshView.as_view(), name='token_refresh'),
+    path('api/', include(router.urls)),
+    path('api-auth/', include('rest_framework.urls')),
+    # path('login/', LoginUsuarioAPIView.as_view(), name='login'),
 ]
+
+# ELR: Direcciones URL de funciones que pasan por el enrutador de Django REST framework.
+#      Pasan por el mismo procedimiento que 'urlpatterns = []' indicado anteriormente.
+#      Funciones aquí son escritas como clases antes de usarlas con 'router.register()'. 
+router.register(r'login', LoginUsuarioViewSet, basename='login')
+#router.register(r'login', LoginUsuarioAPIView, basename='login')
+router.register('registro', RegistroUsuarioViewSet, basename='registro')
+urlpatterns += router.urls

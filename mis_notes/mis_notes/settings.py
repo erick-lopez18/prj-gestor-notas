@@ -11,16 +11,25 @@ https://docs.djangoproject.com/en/4.2/ref/settings/
 """
 
 from pathlib import Path
+import os, configparser
+from datetime import timedelta
+from django.core.management.utils import get_random_secret_key
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
+# ELR Default Config file
+DEFAULT_FILE = os.path.join(BASE_DIR, 'my.cnf')
+
+# Parser pora my.cnf
+config = configparser.ConfigParser()
+config.read(DEFAULT_FILE)
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-6=m@4e^j$!@21r$qiy$db+tn#uj7it&6^7o#x72q+i!4^iu34&'
+SECRET_KEY = get_random_secret_key()
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
@@ -40,7 +49,40 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    # ELR: Definición de Django REST framework en el proyecto.
+    'rest_framework',
+    'rest_framework.authtoken',
+    # Simple JWT
+    'rest_framework_simplejwt',
 ]
+
+# ELR: Definiciones requeridas por DRF para autentificación por tokens.
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    ],
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.IsAuthenticated',
+    ],
+}
+
+# ELR: Configuraciones específicas de JWT.
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=15),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=1),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': True,
+    'ALGORITHM': 'HS256',
+    'AUTH_HEADER_TYPES': ('Bearer',),
+    # Selecciona esto para tokens segun uso
+    'SIGNING_KEY': SECRET_KEY, 
+    # 'SIGNING_KEY': config.get('jwt', 'SIGNING_KEY'),
+}
+
+# Modelo de autentificacion
+AUTH_USER_MODEL = 'app_notes.User'
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -76,10 +118,16 @@ WSGI_APPLICATION = 'mis_notes.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
+# ELR: Modificado para usar MySQL como motor de BD.
+#      Configuración de la BD está en la raíz de proyecto bajo el archivo 'my.cnf'.
+#      Generar ese archivo si se obtuvo el proyecto en repositorio (no lo tiene).
+#      Cambiar texto del archivo acorde a tu base de datos local.
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'ENGINE': 'django.db.backends.mysql',
+        'OPTIONS': {
+            'read_default_file': DEFAULT_FILE,
+        },
     }
 }
 
