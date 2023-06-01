@@ -2,6 +2,7 @@
 Repositorio utilizado por Equipo LMT para un proyecto de sistema gestor de notas.
 
 
+
 ## Descripción del proyecto
 Se trata de una aplicación web hecha en Django que cuenta con acceso a un sistema basado en CRUD para la gestión de notas generadas por el usuario, así como también un registro de eventos de calendario generados por el usuario con la ayuda de una base de datos MySQL.
 
@@ -50,15 +51,16 @@ El directorio 'mis_notes' contiene, además de la aplicación, un archivo denomi
 
 
 ## Información de proyecto (sólo para colaboradores)
-### Lista to-do (sólo para colaboradores)
-[] Corregir modelo de negocios y migraciones
-[] Hacer funcionar los tokens de JWT
-[] Ajustar nomenclatura entre serializers, views y urls
-[] Ajustar direcciones de templates
-[] Colocar estructura de static (js, css, img)
-[] Instalar Bootstrap en static
-[] Instalar FullCalendar.js en js
-[] Estilizar vistas referenciando css de Bootstrap
+### Lista to-do
+[ ] Corregir modelo de negocios y migraciones
+[ ] Hacer funcionar los tokens de JWT
+[ ] Incluir Axios de manera local en el proyecto
+[ ] Ajustar nomenclatura entre serializers, views y urls
+[ ] Ajustar direcciones de templates
+[x] Colocar estructura de static (js, css, img)
+[ ] Instalar Bootstrap en static
+[ ] Instalar FullCalendar.js en js
+[ ] Estilizar vistas referenciando css de Bootstrap
 
 ### Comentarios adicionales
 RAY: Consultar repositorio de clase en caso de dudas.
