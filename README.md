@@ -46,19 +46,19 @@ El directorio `mis_notes` contiene, además de la aplicación, un archivo denomi
 ...
 
 ## ℹ Información de colaboradores principales
-**En representación del...**
-Tecnológico Nacional de México Campus Tijuana
+**En representación del...**  
+Tecnológico Nacional de México Campus Tijuana  
 [♟ Perfil de GitHub](https://github.com/tectijuana)
 
-**Equipo LMT está conformado por...**
+**Equipo LMT está conformado por...**  
 Estudiantes de la carrera de Ingeniería Informática:
 - Erick Abel Lopez Rubio (autor del repositorio)
 - Columba Trejo Ortiz
 - Pedro Jared Jimenez
 
-**El proyecto se encuentra bajo supervisión de...**
-Docente de la materia "Programación en Ambiente Cliente/Servidor".
-M.C. Ray Brunett Parra Galaviz
+**El proyecto se encuentra bajo supervisión de...**  
+Docente de la materia "Programación en Ambiente Cliente/Servidor".  
+M.C. Ray Brunett Parra Galaviz  
 [♟ Perfil de GitLab](https://gitlab.com/RayParra)
 ...
 
