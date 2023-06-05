@@ -41,7 +41,7 @@ La creación de entornos virtuales requieren una instancia de Python instalada d
 Es posible que el proceso de creación de entorno virtual varíe según el sistema operativo. Consultar documentación externa al repositorio para más información.
 
 ### Archivo de requerimientos
-El directorio `mis_notes` contiene, además de la aplicación, un archivo denominado `requirements.txt` que proporciona ayuda para el desarrollador que desee utilizar una réplica exacta del entorno virtual que fue utilizado para depurar la aplicación. Algunos editores de texto como Visual Studio Code pueden incluso usarlo para generar el entorno virtual con todos los stacks incluidos para facilitar la instalación de estos.
+El directorio `mis_notes` contiene, además de la aplicación, un archivo denominado `requirements.txt` que proporciona ayuda para el desarrollador que desee utilizar una réplica exacta del entorno virtual que fue utilizado para depurar la aplicación. Algunos editores de texto como **Visual Studio Code** pueden incluso usarlo para generar el entorno virtual con todos los stacks incluidos para facilitar la instalación de estos.
 
 ...
 
@@ -52,9 +52,9 @@ Tecnológico Nacional de México Campus Tijuana
 
 **Equipo LMT está conformado por...**  
 Estudiantes de la carrera de Ingeniería Informática:
-- Erick Abel Lopez Rubio (autor del repositorio)
-- Columba Trejo Ortiz
-- Pedro Jared Jimenez
+- Erick Abel Lopez Rubio - *contribuidor líder y autor del repositorio*
+- Pedro Jared Martinez Almazan - *contribuidor principal*
+- Columba Trejo Ortiz - *contribuidora principal*
 
 **El proyecto se encuentra bajo supervisión de...**  
 Docente de la materia "Programación en Ambiente Cliente/Servidor":  
@@ -71,7 +71,7 @@ M.C. Ray Brunett Parra Galaviz
 - [x] Incluir Bootstrap de manera local en el proyecto
 - [ ] Notas funcionales
 - [ ] Eventos funcionales
-- [ ] Ajustar menús en templates con tema de plantilla
+- [ ] Ajustar menús en templates con tema de plantillas
 - [ ] Limpiar codigo
 - [ ] Corregir modelo de negocios y migraciones
 - [ ] Hacer funcionar los tokens de JWT
@@ -83,4 +83,4 @@ M.C. Ray Brunett Parra Galaviz
 ### Comentarios adicionales
 RAY: Consultar repositorio de clase en caso de dudas.  
 RAY: Modificar función de login para que no sea del lado cliente (usar POST en vez de GET).  
-ELR: `python manage.py shell` funciona en terminal.
+ELR: `python manage.py shell` funciona en terminal para debugear.
