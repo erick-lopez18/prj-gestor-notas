@@ -7,10 +7,21 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>prj-gestor-notas / base</title>
     <!-- Aquí puedes incluir los enlaces a los archivos CSS y JavaScript -->
-    <link rel="stylesheet" href="{% static 'css/styles.css' %}">
+    {% block head %}
+        <script src="{% static 'axios/dist/axios.min.js' %}"></script>
+        <script src="{% static 'bootstrap/dist/js/bootstrap.min.js' %}"></script>
+        <link rel="stylesheet" href="{% static 'bootstrap/dist/css/bootstrap.min.css' %}">
+        <script src="{% static 'startbootstrap-creative/dist/js/scripts.js' %}"></script>
+        <link rel="stylesheet" href="{% static 'startbootstrap-creative/dist/css/styles.css' %}">
+        <script src="{% static 'js/scripts.js' %}"></script>
+        <link rel="stylesheet" type="text/css" href="{% static 'css/styles.css' %}">
+    {% endblock %}
 </head>
 <body>
     <!-- Aquí puedes incluir la barra de navegación, encabezado, etc. -->
+    <a href="{% url 'home' %}">Home</a>
+    <a href="{% url 'notes-menu-list' %}">Notas</a>
+    <a href="{% url 'events-menu-list' %}">Evento</a>
     <nav>
         ...
     </nav>

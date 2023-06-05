@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>prj-gestor-notas / notes</title>
+    {% extends 'base.html' %}
+    {% load static %}
+</head>
+<body>
+    <h1>Lista de notas</h1>
+    <img src="{% static 'images/notas.jpeg' %}" width="400"height="341">
+    <ul>
+        {% for nota in notas %}
+        <li>
+            <a href="{% url 'notes_detail' nota.id %}">{{ nota.topico }}</a>
+        </li>
+        <!-- Agregar elementos de CRUD aquí -->
+        {% endfor %}
+    </ul>
+</body>
+</html>

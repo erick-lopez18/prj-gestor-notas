@@ -4,9 +4,30 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>prj-gestor-notas / register</title>
+    {% extends 'base.html' %}
+    {% load static %}
 </head>
 <body>
-    <h1>Registro aqui.</h1>
+    {% block content %}
+    <h1>Registrar usuario</h1>
+    <form id='register-form' method="POST" action="{% url 'register-list' %}">
+        {% csrf_token %}
+        <label for="username">Usuario:</label>
+        <input type="text" id="username" name="username" required><br>
+        <label for="email">Email:</label>
+        <input type="text" id="email" name="email" required><br>
+        <label for="password">Contraseña:</label>
+        <input type="password" id="password" name="password" required><br>
+        <button type="submit">Registrarse</button>
+        {% if request.GET.next %}
+            <input type="hidden" name="next" value="{{ request.GET.next }}">
+        {% endif %}
+    </form>
+    {% if success_message %}
+        <p>{{ success_message }}</p>
+    {% endif %}
+    <p></p>
+    {% endblock %}
 </body>
 </html>

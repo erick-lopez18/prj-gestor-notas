@@ -5,16 +5,16 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>prj-gestor-notas / index</title>
+    {% extends 'base.html' %}
+    {% load static %}
 </head>
 <body>
-    {% extends 'base.html' %}
-
     {% block content %}
     <main>
         <h1>Bienvenido al sistema gestor de notas.</h1>
         <p>Esta es la página de bienvenida.</p>
     </main>
-    <a href="{% url 'login-list' %}">Login</a>
+    <a href="{% url 'login-list' %}?next=/home/">Comienza ahora</a>
     {% endblock %}
 </body>
 </html>

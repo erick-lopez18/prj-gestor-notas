@@ -1,0 +1,5 @@
+/* ELR: Estilos de la aplicación en styles.css */
+.error-message {
+    color: red;
+    font-weight: bold;
+  }

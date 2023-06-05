@@ -5,29 +5,40 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>prj-gestor-notas / login</title>
+    {% extends 'base.html' %}
+    {% load static %}
 </head>
 <body>
-    {% extends 'base.html' %}
-
     {% block content %}
-        {% load static %}   
-        <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
-        <script src="{% static 'js/scripts.js' %}"></script>
-        <h2>Iniciar Sesión</h2>
+        <h2>Inicio de sesión</h2>
         {% if messages %}
-            {% for message in messages %}
-                <p class="alert">{{ message }}</p>
-            {% endfor %}
+            <div class="messages">
+                {% for message in messages %}
+                    <li{% if message.tags %} class="{{ message.tags }}"{% endif %}>{{ message }}</li>
+                {% endfor %}
+            </div>
+            <div class="error-messages">
+                {% for message in messages %}
+                  <p>{{ message }}</p>
+                {% endfor %}
+            </div>
+            <div class="success_messages">
+                {% if success_message %}
+                    <p>{{ success_message }}</p>
+                {% endif %}
+            </div>
         {% endif %}
-        <form method="post" action="{% url 'login-list' %}">
+        <form id="login-form" method="POST" action="{% url 'login-list' %}?next=home">
             {% csrf_token %}
             <label for="username">Usuario:</label>
             <input type="text" id="username" name="username" required><br>
             <label for="password">Contraseña:</label>
             <input type="password" id="password" name="password" required><br>
-            <button type="submit">Iniciar Sesión</button>
+            <button type="submit">Iniciar sesión</button>
+            <input type="hidden" name="next" value="{{ next }}">
         </form>
-
+        <p></p>
+        <label>¿No estás registrado? </label><a href="{% url 'register-list' %}">Registrate aquí</a>
     {% endblock %}
 </body>
 </html>
