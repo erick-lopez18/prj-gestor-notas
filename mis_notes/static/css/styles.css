@@ -3,3 +3,7 @@
     color: red;
     font-weight: bold;
   }
+  .tab-me {
+    display: inline-block;
+    margin-left: 40px;
+}

@@ -18,13 +18,13 @@
     {% endblock %}
 </head>
 <body>
+    <nav class="navbar container py-3 px-4 px-lg-5">
     <!-- Aquí puedes incluir la barra de navegación, encabezado, etc. -->
-    <a href="{% url 'home' %}">Home</a>
-    <a href="{% url 'notes-menu-list' %}">Notas</a>
-    <a href="{% url 'events-menu-list' %}">Evento</a>
-    <nav>
-        ...
+    <a class="nav-link" href="{% url 'home' %}">Home</a>
+    <a class="nav-link" href="{% url 'notes-menu-list' %}">Notas</a>
+    <a class="nav-link" href="{% url 'events-menu-list' %}">Evento</a>
     </nav>
+    ...
     <div class="content">
         {% block content %}
         <!-- Esta sección será reemplazada en las plantillas hijas -->
@@ -32,7 +32,9 @@
     </div>
     <!-- Aquí puedes incluir el pie de página, enlaces adicionales, etc. -->
     <footer>
-        <p>Creado por Equipo LMT.</p>
+        <br><br>
+        prj-gestor-notas<br>
+        Copyright - Equipo LMT - 2023
     </footer>
 </body>
 </html>

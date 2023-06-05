@@ -9,15 +9,20 @@
     {% load static %}
 </head>
 <body>
+    {% block content %}
     <h1>Lista de eventos</h1>
-
+    <p></p>
     <img src="{% static 'images/evento.jpg' %}" width="400" height="341">
-    <ul>
+    {% if eventos %}
         {% for evento in eventos %}
          <li>
              <a href="{% url 'events_detail' evento.id %}">{{ evento.topico }}</a>
         </li>
         {% endfor %}
-    </ul>
+    {% else %}
+        <!-- Mostrar un mensaje cuando no hay eventos -->
+        <p>{{ mensaje }}</p>
+    {% endif %}
+    {% endblock %}
 </body>
 </html>

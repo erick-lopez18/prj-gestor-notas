@@ -48,7 +48,7 @@ class Nota(models.Model):
         return self.topico
 
 class Evento(models.Model):
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='eventos')
     topico = models.CharField(max_length=100)
     notas = models.TextField()
 

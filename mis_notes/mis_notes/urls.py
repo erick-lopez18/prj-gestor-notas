@@ -45,6 +45,7 @@ urlpatterns = [
     path('notes/detail/<int:pk>/', DetalleNotaViewSet.as_view({'get': 'retrieve', 'post': 'create'}), name='notes-detail'),
     ###path('notes/detail/', DetalleNotaViewSet.as_view({'get': 'retrieve', 'post': 'create'}), name='notes-detail'),
     path('notes/detail/new/', DetalleNotaViewSet.as_view({'get': 'retrieve', 'post': 'create'}), name='notes-new'),
+    path('notes/menu/destroy/', NotasUsuarioViewSet.as_view({'post': 'destroy'}), name='notes-menu-destroy'),
     ##path('notes/detail/new/', DetalleNotaViewSet.as_view({'post': 'create'}), name='notes-create'),
     ##path('notes/detail/<int:pk>/', DetalleNotaViewSet.as_view({'get': 'retrieve'}), name='notes-detail'),
     #path('menu/notes/edit/<int:nota_id>/', detalle_nota, name='notes_edit'),

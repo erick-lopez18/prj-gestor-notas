@@ -233,6 +233,9 @@ class RegistroUsuarioViewSet(viewsets.ViewSet):
             user = form.save(commit=False)
             user.set_password(form.cleaned_data['password'])
             user.save()
+            # Crea un objeto 'Usuario' con la ID del usuario registrado
+            usuario = Usuario(username=user)
+            usuario.save()
             messages.success(request, 'Usuario registrado exitosamente.')
             login_url = reverse('login-list')
             return redirect(login_url)
@@ -301,9 +304,9 @@ def detalle_nota(request, nota_id):
     serializer = NoteSerializer(note, many=True)
     return render(request, 'notes_edit.html', {'note': serializer.data})
 
-class NotasUsuarioViewSet(viewsets.ViewSet):
+class NotasUsuarioViewSet(LoginRequiredMixin, viewsets.ViewSet):
     #permission_classes = [IsAuthenticated]
-    permission_classes = [AllowAny]
+    #permission_classes = [AllowAny]
 
     def list(self, request):
         # Obtener el usuario actualmente autenticado
@@ -325,13 +328,19 @@ class NotasUsuarioViewSet(viewsets.ViewSet):
             context = {'mensaje': 'No se encontró el usuario'}
         return render(request, 'notes_menu.html', context)
 
-    def create(self, request):
-        # Implementa la lógica para crear una nueva nota
-        pass
-
     def destroy(self, request, pk=None):
-        # Implementa la lógica para eliminar una nota existente
-        pass
+        # Obtén el ID de la nota a eliminar desde la solicitud POST
+        nota_id = request.POST.get('nota_id')
+
+        if nota_id:
+            # Obtén la instancia de la nota a eliminar
+            nota = get_object_or_404(Nota, id=nota_id, usuario__username=request.user.id)
+        
+            # Realiza la eliminación de la nota
+            nota.delete()
+
+        # Redirige a la página de notas nuevamente
+        return HttpResponseRedirect(reverse('notes-menu-list'))
 
 
 class DetalleNotaViewSet(LoginRequiredMixin, viewsets.ViewSet):
@@ -360,11 +369,9 @@ class DetalleNotaViewSet(LoginRequiredMixin, viewsets.ViewSet):
 
     def retrieve(self, request, pk=None):
         if pk is None:
-            print("lmao nueva nota")
             #note = Nota()
             note = None
         else:
-            print("lmao nota qlera")
             note = get_object_or_404(Nota, id=pk, usuario__username=request.user.id)
         serializer = NoteSerializer(note) if note else None
         return render(request, 'notes_detail.html', {'note': serializer.data if serializer else None})
@@ -393,10 +400,20 @@ class EventosUsuarioViewSet(viewsets.ViewSet):
 
     def list(self, request):
         #events = Evento.objects.filter(created_by=request.user)
-        usuario = Usuario.objects.get(usuario=request.username)
-        eventos = Evento.objects.filter(usuario=usuario)
+        username = request.user
+        # Obtener la instancia de Usuario correspondiente al usuario actual
+        usuario_instance = Usuario.objects.get(username=username)
+        # Obtener los eventos asociadas al usuario
+        eventos = Evento.objects.filter(usuario=usuario_instance)
         serializer = EventSerializer(eventos, many=True)
-        return render(request, 'events_menu.html', {'events': serializer.data})
+
+        if eventos.exists():
+            serializer = EventSerializer(eventos, many=True)
+            context = {'events': serializer.data}
+        else:
+            context = {'mensaje': 'No hay eventos disponibles'}
+
+        return render(request, 'events_menu.html', context)
 
     def create(self, request):
         # Implementa la lógica para crear un nuevo evento

@@ -5,17 +5,19 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>prj-gestor-notas / note-detail</title>
+    {% extends 'base.html' %}
+    {% load static %}
 </head>
 <body>
     {% block content %}
     {% if note %}
     <!-- Mostrar detalles de la nota existente -->
-    <h2>Detalles de la nota</h2>
-    <p>Topico: {{ note.topico }}</p>
-    <p>Texto: {{ note.texto }}</p>
+    <h2>✏ Detalles de la nota</h2>
+    <h4>{{ note.topico }}</h4>
+    <p>{{ note.texto }}</p>
     {% else %}
     <!-- Formulario para crear una nueva nota -->
-    <h2>Crear nueva nota</h2>
+    <h2>📝Crear nueva nota</h2>
     <form method="POST" action="{% url 'notes-new' %}">
         {% csrf_token %}
         <label for="topic">Topico:</label>

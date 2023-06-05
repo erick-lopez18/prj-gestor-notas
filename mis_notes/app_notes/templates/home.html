@@ -11,10 +11,12 @@
 
     {% block content %}
     <main>
-        <h1>Hola, {{ username }}.</h1>
+        <h1>Hola, {{ username }}. 👋</h1>
         <h2>¿Qué deseas consultar?</h2>
-        <a href="{% url 'notes-menu-list' %}">Notas</a>
-        <a href="{% url 'events-menu-list' %}">Eventos</a>
+        &emsp;
+        <a href="{% url 'notes-menu-list' %}">📒Notas</a>
+        &emsp;
+        <a href="{% url 'events-menu-list' %}">📅Eventos</a>
     </main>
     {% endblock %}
 </body>
