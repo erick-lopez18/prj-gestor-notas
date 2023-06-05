@@ -34,13 +34,13 @@ class User(AbstractBaseUser):
         return self.username
     
 class Usuario(models.Model):
-    usuario = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
+    username = models.OneToOneField(User, on_delete=models.CASCADE, primary_key=True)
 
     def __str__(self):
-        return self.usuario.username
+        return self.username.username
 
 class Nota(models.Model):
-    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE)
+    usuario = models.ForeignKey(Usuario, on_delete=models.CASCADE, related_name='notas')
     topico = models.CharField(max_length=100)
     texto = models.TextField()
 

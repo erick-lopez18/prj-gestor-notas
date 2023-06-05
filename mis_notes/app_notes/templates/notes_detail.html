@@ -7,11 +7,28 @@
     <title>prj-gestor-notas / note-detail</title>
 </head>
 <body>
-    <h1>Detalles de la nota</h1>
+    {% block content %}
+    {% if note %}
+    <!-- Mostrar detalles de la nota existente -->
+    <h2>Detalles de la nota</h2>
+    <p>Topico: {{ note.topico }}</p>
+    <p>Texto: {{ note.texto }}</p>
+    {% else %}
+    <!-- Formulario para crear una nueva nota -->
+    <h2>Crear nueva nota</h2>
+    <form method="POST" action="{% url 'notes-new' %}">
+        {% csrf_token %}
+        <label for="topic">Topico:</label>
+        <input type="text" name="topic" id="topic">
+        <br>
+        <label for="text">Texto:</label>
+        <textarea name="text" id="text"></textarea>
+        <br>
+        <input type="submit" value="Guardar">
+    </form>
+    {% endif %}
+    {% endblock %}
 
-    <p><strong>Topico:</strong> {{ nota.topico }}</p>
-    <p><strong>Texto:</strong> {{ nota.texto }}</p>
-    <p><strong>Usuario:</strong> {{ nota.usuario.username }}</p>
-    <!-- Agregar elementos de modificación de la nota aquí -->
+
 </body>
 </html>

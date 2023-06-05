@@ -9,15 +9,25 @@
     {% load static %}
 </head>
 <body>
+    {% block content %}
     <h1>Lista de notas</h1>
     <img src="{% static 'images/notas.jpeg' %}" width="400"height="341">
+    <a href="{% url 'notes-new' %}">Crear nueva nota</a>
+    <p></p>
     <ul>
-        {% for nota in notas %}
-        <li>
-            <a href="{% url 'notes_detail' nota.id %}">{{ nota.topico }}</a>
-        </li>
-        <!-- Agregar elementos de CRUD aquí -->
-        {% endfor %}
+        {% if notas %}
+             <!-- Mostrar las notas -->
+            {% for nota in notas %}
+                <!-- Mostrar detalles de la nota -->
+                <li>
+                    <a href="{% url 'notes-detail' nota.id %}">{{ nota.topico }}</a>
+                </li>
+            {% endfor %}
+        {% else %}
+            <!-- Mostrar un mensaje cuando no hay notas -->
+            <p>{{ mensaje }}</p>
+        {% endif %}
     </ul>
+    {% endblock %}
 </body>
 </html>

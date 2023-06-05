@@ -38,12 +38,12 @@ class MyTokenObtainPairSerializer(TokenObtainPairSerializer):
 
 class NoteSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
-    topic = serializers.CharField(max_length=255)
-    text = serializers.CharField()
-    created_by = serializers.ReadOnlyField(source='created_by.username')
+    topico = serializers.CharField(max_length=255)
+    texto = serializers.CharField()
+    #created_by = serializers.ReadOnlyField(source='created_by.username')
 
 class EventSerializer(serializers.Serializer):
     id = serializers.IntegerField(read_only=True)
-    topic = serializers.CharField(max_length=255)
-    notes = serializers.CharField()
-    created_by = serializers.ReadOnlyField(source='created_by.username')
+    topico = serializers.CharField(max_length=255)
+    notas = serializers.CharField()
+    #created_by = serializers.ReadOnlyField(source='created_by.username')

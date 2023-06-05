@@ -30,7 +30,7 @@ from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.views import TokenObtainPairView
 from app_notes.serializers import MyTokenObtainPairSerializer, NoteSerializer, EventSerializer
 from app_notes.forms import UserLoginForm, UserRegisterForm
-from app_notes.models import Nota, Evento
+from app_notes.models import Usuario, Nota, Evento
 
 # Vistas de la aplicación. Usar en conjunto con carpeta 'templates'.
 
@@ -43,11 +43,11 @@ User = get_user_model()
 class MyTokenObtainPairView(TokenObtainPairView):
     serializer_class = MyTokenObtainPairSerializer 
 
-# ELR: Función para índice de bienvenida.
+# ELR: Vista para índice de bienvenida.
+#      La primera pantalla que el usuario ve al entrar a la aplicación.
 def index(request):
     return render(request, "index.html")  # Usa template 'index.html'.
 
-# ELR: Función para login de usuario.
 #def login_usuario(request):
 #    if request.method == 'POST':
 #        username = request.POST['username']
@@ -60,26 +60,12 @@ def index(request):
 #            messages.error(request, 'Credenciales inválidas.')
 #    return render(request, 'login.html')  # Usar template 'login.html'.
 
-#class LoginUsuarioAPIView(APIView):
-#    #@action(detail=False, methods=['post'])
-#    def post(self, request):
-#        # username = request.POST.get('username')
-#        # password = request.POST.get('password')
-#        username = request.data.get['username']
-#        password = request.data.get['password']
-#        user = authenticate(username=username, password=password)
-#        if user is not None:
-#            return redirect('notas_usuario')  # Redirigir a vista de notas.
-#        else:
-#            return Response({'detail': 'Inicio de sesión exitoso.'})
-#            # return Response({'error': 'Credenciales inválidas.'}, status=status.HTTP_400_BAD_REQUEST)
-
+# ELR: Función para login de usuario.
 @authentication_classes([TokenAuthentication, SessionAuthentication])
 @permission_classes([AllowAny])
 class LoginUsuarioViewSet(viewsets.ViewSet):
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'login.html'
-    #url_name = 'login-list'
 
     def create(self, request):
         return self.handle_post(request)
@@ -89,8 +75,6 @@ class LoginUsuarioViewSet(viewsets.ViewSet):
         if form.is_valid():
             username = form.cleaned_data['username']
             password = form.cleaned_data['password']
-            # print(f"Username: {username}")
-            # print(f"Password: {password}")
             try:
                 user = User.objects.get(username=username)
                 #user = User.objects.filter(Q(username=username).first() | Q(email=email))
@@ -322,9 +306,24 @@ class NotasUsuarioViewSet(viewsets.ViewSet):
     permission_classes = [AllowAny]
 
     def list(self, request):
-        notes = Nota.objects.filter(created_by=request.user)
-        serializer = NoteSerializer(notes, many=True)
-        return render(request, 'notes_menu.html', {'notes': serializer.data})
+        # Obtener el usuario actualmente autenticado
+        usuario = request.user
+        try:
+            # Obtener la instancia de Usuario correspondiente al usuario actual
+            usuario_instance = Usuario.objects.get(username=usuario)
+            # Obtener las notas asociadas al usuario
+            notas = Nota.objects.filter(usuario=usuario_instance)
+            serializer = NoteSerializer(notas, many=True)
+            if notas.exists():
+                # Hay notas disponibles
+                context = {'notas': serializer.data}
+            else:
+                # No hay notas disponibles
+                context = {'mensaje': 'No hay notas disponibles'}
+        except Usuario.DoesNotExist:
+            # El usuario no tiene una instancia de Usuario asociada
+            context = {'mensaje': 'No se encontró el usuario'}
+        return render(request, 'notes_menu.html', context)
 
     def create(self, request):
         # Implementa la lógica para crear una nueva nota
@@ -334,13 +333,41 @@ class NotasUsuarioViewSet(viewsets.ViewSet):
         # Implementa la lógica para eliminar una nota existente
         pass
 
-class DetalleNotaViewSet(viewsets.ViewSet):
+
+class DetalleNotaViewSet(LoginRequiredMixin, viewsets.ViewSet):
     #permission_classes = [IsAuthenticated]
+    def list(self, request, pk=None):
+        pass
+
+    def create(self, request, pk=None):
+        topic = request.data.get('topic')
+        text = request.data.get('text')
+        #usuario = request.user.username
+        usuario = Usuario.objects.get(username=request.user.id)
+        print(usuario)
+        nota = Nota.objects.create(usuario=usuario, topico=topic, texto=text)
+        serializer = NoteSerializer(nota)
+        url = reverse('notes-detail', kwargs={'pk': nota.pk})
+        return redirect(url)
+        #return redirect('notes-detail', pk=nota.id)
+        #note = Nota()
+        #serializer = NoteSerializer(note)
+        #topic = request.data.get('topic')
+        #text = request.data.get('text')
+        #usuario = Usuario.objects.get(usuario=request.user)
+        #nota = Nota.objects.create(usuario=usuario, topico=topic, texto=text)
+        #return render(request, 'notes_detail.html', {'note': serializer.data})
 
     def retrieve(self, request, pk=None):
-        note = get_object_or_404(Nota, id=pk, created_by=request.user)
-        serializer = NoteSerializer(note)
-        return render(request, 'notes_detail.html', {'note': serializer.data})
+        if pk is None:
+            print("lmao nueva nota")
+            #note = Nota()
+            note = None
+        else:
+            print("lmao nota qlera")
+            note = get_object_or_404(Nota, id=pk, usuario__username=request.user.id)
+        serializer = NoteSerializer(note) if note else None
+        return render(request, 'notes_detail.html', {'note': serializer.data if serializer else None})
 
     def update(self, request, pk=None):
         # Implementa la lógica para actualizar una nota existente
@@ -365,8 +392,10 @@ class EventosUsuarioViewSet(viewsets.ViewSet):
     permission_classes = [AllowAny]
 
     def list(self, request):
-        events = Evento.objects.filter(created_by=request.user)
-        serializer = EventSerializer(events, many=True)
+        #events = Evento.objects.filter(created_by=request.user)
+        usuario = Usuario.objects.get(usuario=request.username)
+        eventos = Evento.objects.filter(usuario=usuario)
+        serializer = EventSerializer(eventos, many=True)
         return render(request, 'events_menu.html', {'events': serializer.data})
 
     def create(self, request):
@@ -379,6 +408,9 @@ class EventosUsuarioViewSet(viewsets.ViewSet):
 
 class DetalleEventoViewSet(viewsets.ViewSet):
     #permission_classes = [IsAuthenticated]
+    def create(self, request):
+        # Implementa la lógica para crear un nuevo evento
+        pass
 
     def retrieve(self, request, pk=None):
         event = get_object_or_404(Evento, id=pk, created_by=request.user)
