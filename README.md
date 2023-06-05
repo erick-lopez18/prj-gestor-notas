@@ -57,24 +57,30 @@ Estudiantes de la carrera de Ingeniería Informática:
 - Pedro Jared Jimenez
 
 **El proyecto se encuentra bajo supervisión de...**  
-Docente de la materia "Programación en Ambiente Cliente/Servidor".  
+Docente de la materia "Programación en Ambiente Cliente/Servidor":  
 M.C. Ray Brunett Parra Galaviz  
 [♟ Perfil de GitLab](https://gitlab.com/RayParra)
+
 ...
 
 ## 🎯 Información de proyecto (sólo para colaboradores)
 ### Lista to-do
+- [x] Login y registro funcionales
+- [x] Configurar estructura de recursos estáticos (carpetas static, node_modules)
+- [x] Incluir Axios de manera local en el proyecto
+- [x] Incluir Bootstrap de manera local en el proyecto
+- [ ] Notas funcionales
+- [ ] Eventos funcionales
+- [ ] Ajustar menús en templates con tema de plantilla
+- [ ] Limpiar codigo
 - [ ] Corregir modelo de negocios y migraciones
 - [ ] Hacer funcionar los tokens de JWT
-- [x] Incluir Axios de manera local en el proyecto
 - [ ] Ajustar nomenclatura entre serializers, views y urls
 - [ ] Ajustar direcciones de templates
-- [x] Colocar estructura de static (js, css, img)
-- [ ] Instalar Bootstrap en static
 - [ ] Instalar FullCalendar.js en js
 - [ ] Estilizar vistas referenciando css de Bootstrap
 
 ### Comentarios adicionales
-RAY: Consultar repositorio de clase en caso de dudas.
-RAY: Modificar función de login para que no sea del lado cliente (usar POST en vez de GET).
-ELR: Actualmente estoy checando como hacer funcionar vista de login y deshacer error credenciales no válidas con la ayuda de modelos. `python manage.py shell` funciona en terminal.
+RAY: Consultar repositorio de clase en caso de dudas.  
+RAY: Modificar función de login para que no sea del lado cliente (usar POST en vez de GET).  
+ELR: `python manage.py shell` funciona en terminal.
